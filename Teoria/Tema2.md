@@ -60,9 +60,47 @@ En resumen, para clasificar, se mira la clave de clasificación. Y en algunos ca
 
 *Nota:* RFC (Request for Comment)-> Conjunto de documentos para la formalización del uso de protocolos o cualquier cosa de red. IETF se encarga de desarrollar y aprobar estos RFC.
 
-#### 2.3.5. Conformación de tráfico
+#### 2.3.5. Traffic Shaping
 
 El mecanismo más extendido utilizado para regular la tasa con la que se permite a un flujo imyectar paquetes en la red es el leaky bucket.
 
 ![leacky-bucket](./img/leaky-bucket.png)
 
+Esto permite limitar el número máximo de paquetes enviados a la red en un instante.
+
+#### 2.3.6. Policy
+
+Es el ajuste de prioridad a cada paquete. Se puede configurar para que en vez de descartar un paquete, asignarle una prioridad baja y en caso de que la red no este congestionada se pueda enviar.
+
+#### 2.3.7.Marcado de paquetes
+
+El marcado permite en caso de ausencia de congestión, la clase de tráfico marcado pueda utilizar más ancho de banda.
+
+#### 2.3.8. Planificación de paquetes
+
+A cada paquete se le establece una prioridad para dar una buena calidad de servicio.
+
+#### 2.3.8.1. Planificadores simples
+
+- **Prioridad estricta**. Se sirve el que más prioridad tenga
+- **Round Robin**. Se selecciona en orden cada cola.
+
+#### 2.3.8.2. Planificadores adaptativos
+
+Se aplica cuando los paquetes tienen tamaños distintos, para mantener la tasa de bits
+
+- **RR deficitario**. El turno de cada cola está activo hasta que no se hayan enviado los bytes pendientes para cumplir la tasa media deseada
+- **Encolado equitativo (FQ) y encolado equitativo ponderado (WFQ)**
+
+#### 2.3.9. Gestión de colas
+
+Se encarga de establecer y mantener las colas en el encaminador.
+
+- Añade paquetes a las colas
+- Descarta paquetes si la cola está completa
+- Saca de la cola un paquete cuando lo solicite el planificador
+- Monitorizar el nuvel de ocupación de la cola
+  
+La reducción del nivel de ocupación de las colas las puede llevar a cabo el gestor de colas mediante dos mecaniscos:
+- **Señalización en banda**. Mediante la *notificación explícita de congestión*. Se le indica a los extremos que deben ejecutar sus mecanismos de control de congestión
+- **Descartado de paquetes**. Descartado de paquetes de la cabecera de la cola
